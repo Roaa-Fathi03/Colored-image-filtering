@@ -3,17 +3,29 @@
 #include "bmplib.cpp"
 #include "bmplib.h"
 #include <string>
+
 using namespace std;
+
 unsigned char image[SIZE][SIZE][RGB];
+unsigned char quarter1[SIZE][SIZE][RGB];
+unsigned char quarter2[SIZE][SIZE][RGB];
+unsigned char quarter3[SIZE][SIZE][RGB];
+unsigned char quarter4[SIZE][SIZE][RGB];
+
+int choice8;
+
 string choice;
 string choice4;
 string choice_a;
+
 void loadColoredImage();
 void saveColoredImage();
 void BlackWhiteFilter();
 void FlipImage();
 void MirrorHalfImage();
 void DetectImageEdges();
+void enlargeImage();
+
 int main(){
     cout << "hello our dear user " << endl;
     loadColoredImage(); // take the name of the image from the user and load it to apply the filters in
@@ -55,7 +67,7 @@ int main(){
         DetectImageEdges();
     }
     else if (choice == "8"){
-        //enlargeImage();
+        enlargeImage();
     }
     else if (choice == "9"){
         cout << "hello";
@@ -180,6 +192,84 @@ void DetectImageEdges() {
     }
 }
 
+//-----------------------------------------------
+void enlargeImage() {
+    cout << "Please, enter a number to determine which quarter to enlarge: " << endl; // Asking the user to determine which quarter to enlarge.
+    cout << "1 - Right upper quarter." << endl;
+    cout << "2 - Left upper quarter." << endl;
+    cout << "3 - Right lower quarter." << endl;
+    cout << "4 - Left lower quarter." << endl;
+    cin >> choice8;
+
+    if (choice8 == 1) { // If the chosen quarter is the first one.
+        for (int i = 0, x = 0; i < SIZE; i += 2, x++) { // Looping through each single pixel in the original image, and adding it to the first four pixels in the new one.
+            for (int j = 0, y = 0; j < SIZE; j += 2, y++) {
+                for (int k = 0, z = 0; k < RGB; k++, z++) {
+                    quarter1[i][j][k] = image[x][y][z];
+                    quarter1[i][j + 1][k] = image[x][y][z];
+                    quarter1[i + 1][j][k] = image[x][y][z];
+                    quarter1[i + 1][j + 1][k] = image[x][y][z];
+                }
+            }
+        }
+        char newImage[100];
+        cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
+        cin >> newImage;
+        strcat(newImage, ".bmp"); // Adding .bmp extension to load and, write it.
+        writeRGBBMP(newImage, quarter1); // Writing and creating the new image.
+
+    } else if (choice8 == 2) { // If the chosen quarter is the second one.
+        for (int i = 0, x = 0; i < SIZE; i += 2, x++) { // Looping through each single pixel in the original image, and adding it to the four first pixels in the new one.
+            for (int j = 0, y = 128; j < SIZE; j += 2, y++) {
+                for (int k = 0, z = 0; k < RGB; k++, z++) {
+                    quarter2[i][j][k] = image[x][y][z];
+                    quarter2[i][j + 1][k] = image[x][y][z];
+                    quarter2[i + 1][j][k] = image[x][y][z];
+                    quarter2[i + 1][j + 1][k] = image[x][y][z];
+                }
+            }
+        }
+        char newImage[100];
+        cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
+        cin >> newImage;
+        strcat(newImage, ".bmp"); // Adding .bmp extension to load and, write it.
+        writeRGBBMP(newImage, quarter2); // Writing and creating the new image.
+
+    } else if (choice8 == 3) { // If the chosen quarter is the third one.
+        for (int i = 0, x = 128; i < SIZE; i += 2, x++) { // Looping through each single pixel in the original image, and adding it to the first four pixels in the new one.
+            for (int j = 0, y = 0; j < SIZE; j += 2, y++) {
+                for (int k = 0, z = 0; k < RGB; k++, z++) {
+                    quarter3[i][j][k] = image[x][y][z];
+                    quarter3[i][j + 1][k] = image[x][y][z];
+                    quarter3[i + 1][j][k] = image[x][y][z];
+                    quarter3[i + 1][j + 1][k] = image[x][y][z];
+                }
+            }
+        }
+        char newImage[100];
+        cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
+        cin >> newImage;
+        strcat(newImage, ".bmp"); // Adding .bmp extension to load, write it.
+        writeRGBBMP(newImage, quarter3); // Writing and creating the new image.
+
+    } else { // If the chosen quarter is the fourth one.
+        for (int i = 0, x = 128; i < SIZE; i += 2, x++) { // Looping through each pixel in the original image, and adding it to the first four pixels in the new one.
+            for (int j = 0, y = 128; j < SIZE; j += 2, y++) {
+                for (int k = 0, z = 0; k < RGB; k++, z++) {
+                    quarter4[i][j][k] = image[x][y][z];
+                    quarter4[i][j + 1][k] = image[x][y][z];
+                    quarter4[i + 1][j][k] = image[x][y][z];
+                    quarter4[i + 1][j + 1][k] = image[x][y][z];
+                }
+            }
+        }
+        char newImage[100];
+        cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
+        cin >> newImage;
+        strcat(newImage, ".bmp"); // Adding .bmp extension to load, and write it.
+        writeRGBBMP(newImage, quarter4); // Writing and creating the new image.
+    }
+}
 //-----------------------------------------------
 void MirrorHalfImage() {
     cout << "please select which half you want: " << endl;

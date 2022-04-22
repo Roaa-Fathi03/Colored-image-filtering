@@ -1,8 +1,8 @@
 #include <iostream>
-#include <cstring>
 #include "bmplib.cpp"
 #include "bmplib.h"
 #include <string>
+#include <cstring>
 
 using namespace std;
 
@@ -22,35 +22,37 @@ string choice_a;
 void loadColoredImage();
 void saveColoredImage();
 void BlackWhiteFilter();
+void invertImage();
 void FlipImage();
 void MirrorHalfImage();
 void DetectImageEdges();
 void enlargeImage();
 
-int main(){
-    cout << "hello our dear user " << endl;
+int main() {
+    cout << "Hello our dear user." << endl;
     loadColoredImage(); // take the name of the image from the user and load it to apply the filters in
-    cout << "please select a filter to apply or 0 to exit:  " << endl;
-    cout << "1- Black and white Filter." << endl;
-    cout << "2- Invert Filter." << endl;
-    cout << "3- Merge Filter." << endl;
-    cout << "4- Flip Image ." << endl;
-    cout << "5- Darken and Lighten Filter." << endl;
-    cout << "6- Rotate Image." << endl;
-    cout << "7- Detect Image Edges." << endl;
-    cout << "8- Enlarge Image ." << endl;
-    cout << "9- Shrink Image ." << endl;
-    cout << "a- Mirror 1/2 Image ." << endl;
-    cout << "b- Shuffle Image ." << endl;
-    cout << "c- Blur Image ." << endl;
-    cout << "s- Save the Image to a file." << endl;
-    cout << "0- Exit ." << endl;
+    cout << "Please, select a filter to apply or 0 to exit:  " << endl;
+    cout << "1 - Black and white filter." << endl;
+    cout << "2 - Invert image." << endl;
+    cout << "3 - Merge images." << endl;
+    cout << "4 - Flip image." << endl;
+    cout << "5 - Darken and lighten image." << endl;
+    cout << "6 - Rotate image." << endl;
+    cout << "7 - Detect image Edges." << endl;
+    cout << "8 - Enlarge image ." << endl;
+    cout << "9 - Shrink image ." << endl;
+    cout << "a - Mirror 1/2 Image ." << endl;
+    cout << "b - Shuffle image ." << endl;
+    cout << "c - Blur image ." << endl;
+    cout << "s - Save the image to a file." << endl;
+    cout << "0 - Exit." << endl;
     cin >> choice; // take the no. of the filter that user want to apply
+    
     if (choice == "1") {
         BlackWhiteFilter();
     }
     else if (choice == "2"){
-        //invertImage();
+        invertImage();
     }
     else if (choice == "3"){
         cout << "hello";
@@ -88,7 +90,7 @@ int main(){
     saveColoredImage(); // this function to save the changes on the image after apply the filter on it (colored version)
     return 0;
 }
-//_______________
+//------------------------------
 void loadColoredImage(){
     // take the name of the image from the user and load it to apply the filters in
     char image_file_name[100];
@@ -101,7 +103,7 @@ void loadColoredImage(){
     strcat(image_file_name, ".bmp");
     readRGBBMP(image_file_name, image);
 }
-//_______________
+//------------------------------
 void saveColoredImage() {
     // this function to save the changes on the image after apply the filter on it (colored version)
     char image_file_name[100];
@@ -115,7 +117,7 @@ void saveColoredImage() {
     writeRGBBMP(image_file_name, image);
 }
 
-//_______________
+//------------------------------
 void BlackWhiteFilter() {
     double gray_avg;
     for (int i = 0; i < SIZE; i++) {
@@ -141,7 +143,17 @@ void BlackWhiteFilter() {
 }
 
 
-//_______________
+//------------------------------
+void invertImage() {
+    for (int i = 0; i < SIZE; i++) { // Looping through each single pixel in the original image, and replacing each pixel with the one with the opposite level of brightness.
+        for (int j = 0; j < SIZE; j++) {
+            for (int k = 0; k < RGB; k++) {
+                image[i][j][k] = 255 - image[i][j][k];
+            }
+        }
+    }
+}
+//------------------------------
 void FlipImage() {
     cout << " please select a number to determine how to flip " << endl;
     cout << "1-  Horizontal Flip. " << endl;
@@ -173,7 +185,7 @@ void FlipImage() {
         }
     }
 }
-//-----------------------------------------------
+//------------------------------
 void DetectImageEdges() {
     BlackWhiteFilter();// we call the black and white function
     // because we compare each index and the next to it with 0 and 255
@@ -193,7 +205,7 @@ void DetectImageEdges() {
     }
 }
 
-//-----------------------------------------------
+//------------------------------
 void enlargeImage() {
     cout << "Please, enter a number to determine which quarter to enlarge: " << endl; // Asking the user to determine which quarter to enlarge.
     cout << "1 - Right upper quarter." << endl;
@@ -271,7 +283,7 @@ void enlargeImage() {
         writeRGBBMP(newImage, quarter4); // Writing and creating the new image.
     }
 }
-//-----------------------------------------------
+//------------------------------
 void MirrorHalfImage() {
     cout << "please select which half you want: " << endl;
     cout << "1- Right half" << endl;
@@ -327,7 +339,7 @@ void MirrorHalfImage() {
         }
     }
 }
-//-----------------------------------------------
+//------------------------------
 void shuffleImage() {
     for (int l = 1; l < 5; l++) {
         cout << "Please, enter the " << l << " quarter order: " << endl; // Asking about the new quarters order for four times.
@@ -366,6 +378,7 @@ void shuffleImage() {
                         shuffledImage[x][y][z] = image[i][j][k];
                 }
             }
+            
         } else if (quarterOrder == 2) { // If the chosen quarter is 2.
             x = newRows; // We set the counter x to the value of the new rows refernce, and adding each single pixel in the original image to the shuffled one.
             for (int i = 0; i < 128; i++, x++) {
@@ -403,7 +416,6 @@ void shuffleImage() {
 char newImage[100];
     cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
     cin >> newImage;
-    
     strcat(newImage, ".bmp"); // Adding .bmp extension to load, and write it.
     writeRGBBMP(newImage, shuffledImage); // Writing and creating the new image.
-//-----------------------------------------------
+//------------------------------

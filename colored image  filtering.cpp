@@ -11,8 +11,9 @@ unsigned char quarter1[SIZE][SIZE][RGB];
 unsigned char quarter2[SIZE][SIZE][RGB];
 unsigned char quarter3[SIZE][SIZE][RGB];
 unsigned char quarter4[SIZE][SIZE][RGB];
+unsigned char shuffledImage[SIZE][SIZE][RGB];
 
-int choice8;
+int choice8, quarterOrder, oldRows, oldCols, newRows, newCols, x, y;
 
 string choice;
 string choice4;
@@ -326,3 +327,83 @@ void MirrorHalfImage() {
         }
     }
 }
+//-----------------------------------------------
+void shuffleImage() {
+    for (int l = 1; l < 5; l++) {
+        cout << "Please, enter the " << l << " quarter order: " << endl; // Asking about the new quarters order for four times.
+        cin >> quarterOrder;
+
+        if (quarterOrder == 1 || quarterOrder == 2) { // If the chosen quarter is 1 or 2, then we set the old rows (original image) reference to 0.
+            oldRows = 0;
+        } else { // Otherwise, it is set to 128.
+            oldRows = 128;
+        }
+
+        if (quarterOrder == 1 || quarterOrder == 3) { // If the chosen quarter is 1 or 3, then we set the old columns (original image) reference to 0.
+            oldCols = 0;
+        } else { // Otherwise, it is set to 128.
+            oldCols = 128;
+        }
+
+        if (l == 1 || l == 2) { // If the chosen quarter is 1 or 2, then we set the new rows (shuffled image) reference to 0.
+            newRows = 0;
+        } else { // Otherwise, it is set to 128.
+            newRows = 128;
+        }
+
+        if (l == 1 || l == 3) { // If the chosen quarter is 1 or 2, then we set the new columns (shuffled image) reference to 0.
+            newCols = 0;
+        } else { // Otherwise, it is set to 128.
+            newCols = 128;
+        }
+
+        if (quarterOrder == 1) { // If the chosen quarter is 1.
+            x = newRows; // We set the counter x to the value of the new rows refernce, and adding each single pixel in the original image to the shuffled one.
+            for (int i = 0; i < 128; i++, x++) {
+                y = newCols; // Counter y is set the value of the new columns refernce.
+                for (int j = 0; j < 128; j++, y++) {
+                    for (int k = 0, z = 0; k < RGB; k++, z++)
+                        shuffledImage[x][y][z] = image[i][j][k];
+                }
+            }
+        } else if (quarterOrder == 2) { // If the chosen quarter is 2.
+            x = newRows; // We set the counter x to the value of the new rows refernce, and adding each single pixel in the original image to the shuffled one.
+            for (int i = 0; i < 128; i++, x++) {
+                y = newCols; // Counter y is set the value of the new columns refernce.
+                for (int j = 128; j < 256; j++, y++) {
+                    for (int k = 0, z = 0; k < RGB; k++, z++)
+                        shuffledImage[x][y][z] = image[i][j][k];
+                }
+            }
+
+        } else if (quarterOrder == 3) { // If the chosen quarter is 3.
+            x = newRows; // We set the counter x to the value of the new rows refernce, and adding each single pixel in the original image to the shuffled one.
+            for (int i = 128; i < 256; i++, x++) {
+                y = newCols; // Counter y is set the value of the new columns refernce.
+                for (int j = 0; j < 128; j++, y++) {
+                    for (int k = 0, z = 0; k < RGB; k++, z++) {
+                        shuffledImage[x][y][z] = image[i][j][k];
+                    }
+                }
+            }
+
+        } else { // If the chosen quarter is 4.
+            x = newRows; // We set the counter x to the value of the new rows refernce, and adding each single pixel in the original image to the shuffled one.
+            for (int i = 128; i < 256; i++, x++) {
+                y = newCols; // Counter y is set the value of the new columns refernce.
+                for (int j = 128; j < 256; j++, y++) {
+                    for (int k = 0, z = 0; k < 128; k++, z++) {
+                        shuffledImage[x][y][z] = image[i][j][k];
+                    }
+                }
+            }
+        }
+    }
+}
+char newImage[100];
+    cout << "Please, enter the target image file name: " << endl; // Asking about the new image name.
+    cin >> newImage;
+    
+    strcat(newImage, ".bmp"); // Adding .bmp extension to load, and write it.
+    writeRGBBMP(newImage, shuffledImage); // Writing and creating the new image.
+//-----------------------------------------------

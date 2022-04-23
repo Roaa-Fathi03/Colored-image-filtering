@@ -607,7 +607,7 @@ void mergeColoredImages(){
 }
 
 //------------------------------
-/Filter 6 : lightening and darkening an image
+//Filter 6 : lightening and darkening an image
 void lightenAndDarkenColoredImage(){
     char userInput;
     //letting the user choose between darkening or lightening the image
@@ -636,7 +636,7 @@ void lightenAndDarkenColoredImage(){
     }
 }
 
-/------------------------------
+//------------------------------
 //Filter 9 : shrink image
 void shrinkColoredImage(){
     int shrinkSize;
@@ -673,7 +673,7 @@ void shrinkColoredImage(){
     writeRGBBMP(imageFileName, image2);
 }
 
-/------------------------------
+//------------------------------
 void blurColoredImage(){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {

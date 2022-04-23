@@ -1,9 +1,9 @@
 /* Title: colored image filters
- * Purpose of the code: how to work on the image after load it into 3D array 
+ * Purpose of the code: how to work on the image after load it into 3D array
  * and how to loop on the row, columns and colors
  * Author 1: Farah Maged Mahmoud Soliman
  * ID 1: 20210286
- * Author 2: Shaimaa Hanafi Rashad Ali
+ * Author 2: Shaimaa Hanafi Rashad
  * ID 2: 20200887
  * Author 3: Roaa Fathi Abdelhameed Ahmed Nada.
  * ID 3: 20210140 */
@@ -60,44 +60,54 @@ int main() {
 
     if (choice == "1") {
         BlackWhiteFilter();
+        saveColoredImage();
     }
     else if (choice == "2"){
         invertImage();
+        saveColoredImage();
     }
     else if (choice == "3"){
         cout << "hello";
+        saveColoredImage();
     }
     else if (choice == "4") {
         FlipImage();
+        saveColoredImage();
     }
     else if (choice == "5"){
         rotateImage();
+        saveColoredImage();
     }
     else if (choice == "6"){
         cout << "hello";
+        saveColoredImage();
     }
     else if (choice == "7") {
         DetectImageEdges();
+        saveColoredImage();
     }
     else if (choice == "8"){
         enlargeImage();
     }
     else if (choice == "9"){
         cout << "hello";
+        saveColoredImage();
     }
     else if (choice == "a") {
         MirrorHalfImage();
+        saveColoredImage();
     }
     else if (choice == "b"){
         shuffleImage();
     }
     else if (choice == "c"){
         cout << "hello";
+        saveColoredImage();
     }
     else if (choice == "0") {
         cout << " thank you for using out filter"; // exit
     }
-    saveColoredImage(); // this function to save the changes on the image after apply the filter on it (colored version)
+    //saveColoredImage(); // this function to save the changes on the image after apply the filter on it (colored version)
     return 0;
 }
 //------------------------------

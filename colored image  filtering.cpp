@@ -7,6 +7,7 @@
  * ID 2: 20200887
  * Author 3: Roaa Fathi Abdelhameed Ahmed Nada.
  * ID 3: 20210140 */
+
 #include <iostream>
 #include "bmplib.cpp"
 #include "bmplib.h"
@@ -42,6 +43,8 @@ void MirrorHalfImage();
 void shuffleImage();
 void mergeColoredImages();
 void lightenAndDarkenColoredImage();
+void shrinkColoredImage();
+void blurColoredImage();
 
 int main() {
     cout << "Hello our dear user." << endl;
@@ -94,8 +97,7 @@ int main() {
         enlargeImage();
     }
     else if (choice == "9"){
-        cout << "hello";
-        saveColoredImage();
+        shrinkColoredImage();
     }
     else if (choice == "a") {
         MirrorHalfImage();
@@ -105,7 +107,7 @@ int main() {
         shuffleImage();
     }
     else if (choice == "c"){
-        cout << "hello";
+        blurColoredImage();
         saveColoredImage();
     }
     else if (choice == "0") {
@@ -629,6 +631,56 @@ void lightenAndDarkenColoredImage(){
                 for (int k = 0; k < RGB; ++k) {
                     image[i][j][k] = (image[i][j][k] + 255) /2;
                 }
+            }
+        }
+    }
+}
+
+/------------------------------
+//Filter 9 : shrink image
+void shrinkColoredImage(){
+    int shrinkSize;
+
+    //choosing the shrinkage size
+    cout << "please choose the shrinkage size:\n" << "1/(2)\n" << "1/(3)\n" << "1/(4)\n" << ">> ";
+    cin >> shrinkSize;
+
+    //skipping the shrink size number entered by the user and loading it into a new loaded image "image2"
+    for (int i = 0, x = 0; i < SIZE; i += shrinkSize, ++x) {
+        for (int j = 0, y = 0; j < SIZE; j += shrinkSize, ++y) {
+            for (int k = 0; k < RGB; k ++) {
+                image2[x][y][k] = image[i][j][k];
+            }
+        }
+    }
+    //turning the rest of the pixels into white color
+    for (int i = (256 / shrinkSize), x = 0, w = (256 / shrinkSize); i < SIZE; ++i, x++, ++w) {
+        for (int j = (256 / shrinkSize), y = (256 / shrinkSize), z = 0; j < SIZE; ++j, y++, ++z) {
+            for (int k = 0; k < RGB; ++k) {
+                image2[i][j][k] = 255;
+                image2[x][y][k] = 255;
+                image2[w][z][k] = 255;
+            }
+        }
+    }
+
+    char  imageFileName[100];
+
+    cout << "enter the target image file name: ";
+    cin >> imageFileName;
+
+    strcat(imageFileName, ".bmp");
+    writeRGBBMP(imageFileName, image2);
+}
+
+/------------------------------
+void blurColoredImage(){
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            for (int k = 0; k < RGB; ++k) {
+                //taking the average of the surrounding pixels of each pixel
+                image[i][j][k] = (image[i][j][k]+image[i-1][j-1][k]+image[i-1][j][k]+image[i+1][j][k]+image[i][j-1][k]+image[i][j+1][k]+image[i-1][j+1][k]+image[i][j+1][k]+image[i+1][j+1][k]+image[i-2][j-2][k]+image[i-2][j][k]+image[i+2][j][k]+image[i][j-2][k]+image[i][j+2][k]+image[i-2][j+2][k]+image[i][j+2][k]+image[i+2][j+2][k]) /17 ;
+
             }
         }
     }

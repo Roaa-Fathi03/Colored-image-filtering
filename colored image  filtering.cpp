@@ -3,7 +3,7 @@
  * and how to loop on the row, columns and colors
  * Author 1: Farah Maged Mahmoud Soliman
  * ID 1: 20210286
- * Author 2: Shaimaa Hanafi Rashad
+ * Author 2: Shaimaa Hanafi Rashad Ali
  * ID 2: 20200887
  * Author 3: Roaa Fathi Abdelhameed Ahmed Nada.
  * ID 3: 20210140 */
@@ -146,6 +146,7 @@ void saveColoredImage() {
 }
 
 //------------------------------
+//Filter 1 :Balck and White Image
 void BlackWhiteFilter() {
     double gray_avg;
     for (int i = 0; i < SIZE; i++) {
@@ -169,9 +170,8 @@ void BlackWhiteFilter() {
         }
     }
 }
-
-
 //------------------------------
+//Filter 2 : invert Image
 void invertImage() {
     for (int i = 0; i < SIZE; i++) {
         // Looping through each single pixel in the original image,
@@ -184,6 +184,38 @@ void invertImage() {
     }
 }
 //------------------------------
+//Filter 3 :merge Image
+void mergeColoredImages(){
+    char imageFileName[100];
+
+    //taking the second image from the user "image2"
+    cout << "Enter the second source image file name: ";
+    cin >> imageFileName;
+
+    strcat(imageFileName, ".bmp");
+    readRGBBMP(imageFileName, image2);
+
+    //taking the average of every 2 pixels from both images  into a new loaded "image3"
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            for (int k = 0; k < RGB; ++k) {
+                image3[i][j][k] = (image[i][j][k] + image2[i][j][k]) / 2;
+            }
+        }
+    }
+    char  newImageFileName[100];
+
+    //letting the user choose a name to the new image "image3"
+    cout << "enter the target image file name: ";
+    cin >> newImageFileName;
+
+    //attaching .bmp to the name chosen by user and saving "image3"
+    strcat(newImageFileName, ".bmp");
+    writeRGBBMP(newImageFileName, image3);
+}
+
+//------------------------------
+//Filter 4 : Flip Image
 void FlipImage() {
     cout << " please select a number to determine how to flip " << endl;
     cout << "1-  Horizontal Flip. " << endl;
@@ -216,6 +248,7 @@ void FlipImage() {
     }
 }
 //------------------------------
+//Filter 5 : Rotate image
 void rotateImage() {
     cout << "Please, enter a number to select the clockwise degrees of rotation: " << endl; // Asking the user about the number of clockwise degrees.
     cout << "1 - 90 degrees." << endl;
@@ -312,6 +345,37 @@ void rotateImage() {
     }
 }
 //------------------------------
+//Filter 6 : Lightening and Darkening an image
+void lightenAndDarkenColoredImage(){
+    char userInput;
+    //letting the user choose between darkening or lightening the image
+    cout << "Do you want to (d)arken or (l)ighten?";
+    cin >> userInput;
+
+    //lightening the color of the image by adding 255 to each pixel then dividing it by 2
+    if (userInput == 'd'){
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+                for (int k = 0; k < RGB; ++k) {
+                    image[i][j][k] = image[i][j][k] *= 0.5;
+                }
+            }
+        }
+    }
+    //darkening the color of the image by halving the pixel color
+    else if (userInput == 'l'){
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+                for (int k = 0; k < RGB; ++k) {
+                    image[i][j][k] = (image[i][j][k] + 255) /2;
+                }
+            }
+        }
+    }
+}
+
+//------------------------------
+//Filter 7 : Detect image Edges
 void DetectImageEdges() {
     BlackWhiteFilter();// we call the black and white function
     // because we compare each index and the next to it with 0 and 255
@@ -332,6 +396,7 @@ void DetectImageEdges() {
 }
 
 //------------------------------
+//Filter 8 : Enlarge Image
 void enlargeImage() {
     cout << "Please, enter a number to determine which quarter to enlarge: " << endl; // Asking the user to determine which quarter to enlarge.
     cout << "1 - Right upper quarter." << endl;
@@ -420,6 +485,43 @@ void enlargeImage() {
     }
 }
 //------------------------------
+//Filter 9 : Shrink Image
+void shrinkColoredImage(){
+    int shrinkSize;
+
+    //choosing the shrinkage size
+    cout << "please choose the shrinkage size:\n" << "1/(2)\n" << "1/(3)\n" << "1/(4)\n" << ">> ";
+    cin >> shrinkSize;
+
+    //skipping the shrink size number entered by the user and loading it into a new loaded image "image2"
+    for (int i = 0, x = 0; i < SIZE; i += shrinkSize, ++x) {
+        for (int j = 0, y = 0; j < SIZE; j += shrinkSize, ++y) {
+            for (int k = 0; k < RGB; k ++) {
+                image2[x][y][k] = image[i][j][k];
+            }
+        }
+    }
+    //turning the rest of the pixels into white color
+    for (int i = (256 / shrinkSize), x = 0, w = (256 / shrinkSize); i < SIZE; ++i, x++, ++w) {
+        for (int j = (256 / shrinkSize), y = (256 / shrinkSize), z = 0; j < SIZE; ++j, y++, ++z) {
+            for (int k = 0; k < RGB; ++k) {
+                image2[i][j][k] = 255;
+                image2[x][y][k] = 255;
+                image2[w][z][k] = 255;
+            }
+        }
+    }
+
+    char  imageFileName[100];
+
+    cout << "enter the target image file name: ";
+    cin >> imageFileName;
+
+    strcat(imageFileName, ".bmp");
+    writeRGBBMP(imageFileName, image2);
+}
+//------------------------------
+//Filter a : Mirror Half Image
 void MirrorHalfImage() {
     cout << "please select which half you want: " << endl;
     cout << "1- Right half" << endl;
@@ -479,6 +581,7 @@ void MirrorHalfImage() {
     }
 }
 //------------------------------
+//Filter b :Suffle Image
 void shuffleImage() {
     for (int l = 1; l < 5; l++) {
         cout << "Please, enter the " << l << " quarter order: " << endl; // Asking about the new quarters order for four times.
@@ -574,106 +677,8 @@ void shuffleImage() {
     strcat(newImage, ".bmp"); // Adding .bmp extension to load, and write it.
     writeRGBBMP(newImage, shuffledImage); // Writing and creating the new image.
 }
-
 //------------------------------
-//Filter 3 :merge colored image
-void mergeColoredImages(){
-    char imageFileName[100];
-
-    //taking the second image from the user "image2"
-    cout << "Enter the second source image file name: ";
-    cin >> imageFileName;
-
-    strcat(imageFileName, ".bmp");
-    readRGBBMP(imageFileName, image2);
-
-    //taking the average of every 2 pixels from both images  into a new loaded "image3"
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
-            for (int k = 0; k < RGB; ++k) {
-                image3[i][j][k] = (image[i][j][k] + image2[i][j][k]) / 2;
-            }
-        }
-    }
-    char  newImageFileName[100];
-
-    //letting the user choose a name to the new image "image3"
-    cout << "enter the target image file name: ";
-    cin >> newImageFileName;
-
-    //attaching .bmp to the name chosen by user and saving "image3"
-    strcat(newImageFileName, ".bmp");
-    writeRGBBMP(newImageFileName, image3);
-}
-
-//------------------------------
-//Filter 6 : lightening and darkening an image
-void lightenAndDarkenColoredImage(){
-    char userInput;
-    //letting the user choose between darkening or lightening the image
-    cout << "Do you want to (d)arken or (l)ighten?";
-    cin >> userInput;
-
-    //lightening the color of the image by adding 255 to each pixel then dividing it by 2
-    if (userInput == 'd'){
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
-                for (int k = 0; k < RGB; ++k) {
-                    image[i][j][k] = image[i][j][k] *= 0.5;
-                }
-            }
-        }
-    }
-    //darkening the color of the image by halving the pixel color
-    else if (userInput == 'l'){
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
-                for (int k = 0; k < RGB; ++k) {
-                    image[i][j][k] = (image[i][j][k] + 255) /2;
-                }
-            }
-        }
-    }
-}
-
-//------------------------------
-//Filter 9 : shrink image
-void shrinkColoredImage(){
-    int shrinkSize;
-
-    //choosing the shrinkage size
-    cout << "please choose the shrinkage size:\n" << "1/(2)\n" << "1/(3)\n" << "1/(4)\n" << ">> ";
-    cin >> shrinkSize;
-
-    //skipping the shrink size number entered by the user and loading it into a new loaded image "image2"
-    for (int i = 0, x = 0; i < SIZE; i += shrinkSize, ++x) {
-        for (int j = 0, y = 0; j < SIZE; j += shrinkSize, ++y) {
-            for (int k = 0; k < RGB; k ++) {
-                image2[x][y][k] = image[i][j][k];
-            }
-        }
-    }
-    //turning the rest of the pixels into white color
-    for (int i = (256 / shrinkSize), x = 0, w = (256 / shrinkSize); i < SIZE; ++i, x++, ++w) {
-        for (int j = (256 / shrinkSize), y = (256 / shrinkSize), z = 0; j < SIZE; ++j, y++, ++z) {
-            for (int k = 0; k < RGB; ++k) {
-                image2[i][j][k] = 255;
-                image2[x][y][k] = 255;
-                image2[w][z][k] = 255;
-            }
-        }
-    }
-
-    char  imageFileName[100];
-
-    cout << "enter the target image file name: ";
-    cin >> imageFileName;
-
-    strcat(imageFileName, ".bmp");
-    writeRGBBMP(imageFileName, image2);
-}
-
-//------------------------------
+//Filter c : Blur image
 void blurColoredImage(){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {

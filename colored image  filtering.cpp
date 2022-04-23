@@ -3,7 +3,7 @@
  * and how to loop on the row, columns and colors
  * Author 1: Farah Maged Mahmoud Soliman
  * ID 1: 20210286
- * Author 2: Shaimaa Hanafi Rashad
+ * Author 2: Shaimaa Hanafi Rashad Ali
  * ID 2: 20200887
  * Author 3: Roaa Fathi Abdelhameed Ahmed Nada.
  * ID 3: 20210140 */

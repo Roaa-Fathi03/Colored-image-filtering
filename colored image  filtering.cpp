@@ -13,7 +13,7 @@ unsigned char quarter3[SIZE][SIZE][RGB];
 unsigned char quarter4[SIZE][SIZE][RGB];
 unsigned char shuffledImage[SIZE][SIZE][RGB];
 
-int choice8, quarterOrder, oldRows, oldCols, newRows, newCols, x, y;
+int choice5, choice8, quarterOrder, oldRows, oldCols, newRows, newCols, x, y;
 
 string choice;
 string choice4;
@@ -24,9 +24,11 @@ void saveColoredImage();
 void BlackWhiteFilter();
 void invertImage();
 void FlipImage();
-void MirrorHalfImage();
+void rotateImage();
 void DetectImageEdges();
 void enlargeImage();
+void MirrorHalfImage();
+void shuffleImage();
 
 int main() {
     cout << "Hello our dear user." << endl;
@@ -61,7 +63,7 @@ int main() {
         FlipImage();
     }
     else if (choice == "5"){
-        //rotateImage();
+        rotateImage();
     }
     else if (choice == "6"){
         cout << "hello";
@@ -79,7 +81,7 @@ int main() {
         MirrorHalfImage();
     }
     else if (choice == "b"){
-        //shuffleImage();
+        shuffleImage();
     }
     else if (choice == "c"){
         cout << "hello";
@@ -180,6 +182,90 @@ void FlipImage() {
                     swap(image[i][j][k], image[i][SIZE - 1 - j][k]);
                     // then we swap the two indexes together
 
+                }
+            }
+        }
+    }
+}
+//------------------------------
+void rotateImage() {
+    cout << "Please, enter a number to select the clockwise degrees of rotation: " << endl; // Asking the user about the number of clockwise degrees.
+    cout << "1 - 90 degrees." << endl;
+    cout << "2 - 180 degrees." << endl;
+    cout << "3 - 270 degrees." << endl;
+    cin >> choice5;
+
+    if (choice5 == 1) { // If the choice was clockwise 90 degrees.
+        for (int i = 0; i < SIZE / 2; i++) { // Looping through each single pixel in half the original image, and swapping each vertical pixel to be a horizontal one, and vice versa.
+            for (int j = i; j < SIZE - i - 1; j++) {
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
+                }
+            }
+        }
+
+    } else if (choice5 == 2) { // If the choice was clockwise 180 degrees.
+        for (int i = 0; i < SIZE / 2; i++) { // We rotate the original image by 90 clockwise degrees twice, so we repeat the same process twice.
+            for (int j = i; j < SIZE - i - 1; j++) { // Looping through each single pixel in half the original image, and swapping each vertical pixel to be a horizontal one, and vice versa.
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = i; j < SIZE - i - 1; j++) {
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
+                }
+            }
+        }
+
+    } else { // If the choice was clockwise 270 degrees.
+        for (int i = 0; i < SIZE / 2; i++) { // We rotate the original image by 90 clockwise degrees thrice, so we repeat the same process thrice.
+            for (int j = i; j < SIZE - i - 1; j++) { // Looping through each single pixel in half the original image, and swapping each vertical pixel to be a horizontal one, and vice versa.
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = i; j < SIZE - i - 1; j++) {
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = i; j < SIZE - i - 1; j++) {
+                for (int k = 0; k < RGB; k++) {
+                    int temp = image[i][j][k];
+                    image[i][j][k] = image[j][SIZE - 1 - i][k];
+                    image[j][SIZE - 1 - i][k] = image[SIZE - 1 - i][SIZE - 1 - j][k];
+                    image[SIZE - 1 - i][SIZE - 1 - j][k] = image[SIZE - 1 - j][i][k];
+                    image[SIZE - 1 - j][i][k] = temp;
                 }
             }
         }

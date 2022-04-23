@@ -1,13 +1,3 @@
-/* Title: colored image filters
- * Purpose of the code: how to work on the image after load it into 3D array
- * and how to loop on the row, columns and colors
- * Author 1: Farah Maged Mahmoud Soliman
- * ID 1: 20210286
- * Author 2: Shaimaa Hanafi Rashad Ali
- * ID 2: 20200887
- * Author 3: Roaa Fathi Abdelhameed Ahmed Nada.
- * ID 3: 20210140 */
-
 #include <iostream>
 #include "bmplib.cpp"
 #include "bmplib.h"
@@ -114,7 +104,7 @@ int main() {
         cout << " thank you for using out filter"; // exit
     }
     else
-    cout << "Invalid character" ;
+        cout << "Invalid character" ;
     //saveColoredImage(); // this function to save the changes on the image after apply the filter on it (colored version)
     return 0;
 }
@@ -362,7 +352,7 @@ void lightenAndDarkenColoredImage(){
             }
         }
     }
-    //darkening the color of the image by halving the pixel color
+        //darkening the color of the image by halving the pixel color
     else if (userInput == 'l'){
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
